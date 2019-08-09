@@ -1,5 +1,4 @@
 #include<stdio.h>
-#include<conio.h>
 void swap(int *,int *);
 int main()
 {
@@ -9,7 +8,6 @@ int main()
 	printf("\n the values of a and b before swapping are %d %d",a,b);
 	swap(&a,&b);
 	printf("\n the values of a and b after swapping are %d %d",a,b);
-	getch();
 	return 0;
 }
 void swap(int *x,int *y)
