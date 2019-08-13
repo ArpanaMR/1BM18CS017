@@ -7,7 +7,6 @@ int main()
 	int x;
 	int stack[100];
 	int top=-1;
-	clrscr();
 	push(1,stack,&top);
 	push(2,stack,&top);
 	display(stack,top);
