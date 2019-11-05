@@ -55,12 +55,19 @@ NODE delete_front(NODE head)
 NODE delete_end(NODE head)
 {
 	NODE p=head;
-	NODE q;
+	NODE q=p;
 	if(head==NULL)
 	{
 		printf("list is empty\n");
 		return head;
 	}
+	if(head->next==NULL)
+	{
+		printf("Deleted ele=%d\n",head->data);
+		free(head);
+		return NULL;
+	}
+
 	while(p->next!=NULL)
 	{
 		q=p;
@@ -79,7 +86,7 @@ NODE delete_ele(NODE head, int ele)
 	{
 		printf("list is empty\n");
 		return head;
-	}
+	}	
 	if(head->data==ele)
 	{
 		
@@ -90,34 +97,28 @@ NODE delete_ele(NODE head, int ele)
 			
 		return head;
 	}
-	while(curr->data!=ele)
-	{
-		prev=curr;	
-		curr=curr->next;	
-	}
-	if(curr->data==ele)
-	{
-		if(curr!=NULL)
-		{
-		prev->next=curr->next;	
-		printf("deleted elements = %d\n", curr->data);
-		free(curr);
-		return head;
-		}
-	
-	else 
-	{
-		prev->next==NULL;
-		printf("deleted elements =%d\n", curr->data);
-		free(curr);
-		return head;
-	}
-	}
 	else
 	{
-		printf("Value does not exist\n");
-		return head;
+		while(curr!=NULL && curr->data!=ele)
+		{
+			prev=curr;
+			curr=curr->next;
+		}
+		
+		if(curr==NULL)
+		{
+			printf("value does not exist\n");
+			return head;
+		}
+		else
+		{
+			prev->next=curr->next;
+			printf("deleted element =%d\n",curr->data);
+			free(curr);
+			return head;
+		}
 	}
+	
 }
 int main()
 {
@@ -160,7 +161,3 @@ int main()
 	}
 	return 0;
 }
-	
-	
-		
-
