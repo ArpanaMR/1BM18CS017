@@ -6,23 +6,59 @@ struct node
 	struct node *next;
 };
 typedef struct node * NODE;
-NODE getnode();
-NODE insert(NODE head,int item,int *count,int size);
-NODE delete(NODE head);
-void display(NODE head);
 NODE getnode()
 {
 	NODE p;
 	p=(NODE)malloc(sizeof(struct node));
-	if(p!=NULL)
-		return p;
+    return p;
+
+}
+NODE push(int item,NODE head,int *count,int size)
+{
+	NODE p;
+	if(*count<=size)
+	{
+		p=getnode();
+		p->data=item;
+		p->next=head;
+		head=p;
+	}
 	else
 	{
-		printf("memory could not be allocated\n");
-		exit(0);
+		printf("Stack overflow\n");
+	}
+	return head;
+}
+NODE pop(NODE head)
+{
+	NODE p=head;
+	if(head==NULL)
+	{
+		printf("Stack underflow\n");
+		return head;
+	}
+	printf("Popped element = %d\n", p->data);
+	head=p->next;
+	free(p);
+	return head;
+}
+void display(NODE head)
+{
+	NODE p;
+	if(head==NULL)
+	{
+		printf("stack underflow\n");
+		return;
+	}
+	p=head;
+	while(p!=NULL)
+	{
+		printf("%d\n", p->data);
+		p=p->next;
 	}
 }
-NODE insert(NODE head,int item,int *count,int size)
+
+NODE enqueue(NODE head,int item,int *count,int size)
 {
 	NODE p,q;
 	if(*count<=size)
@@ -44,9 +80,9 @@ NODE insert(NODE head,int item,int *count,int size)
 		printf("Queue overflow\n");
 	}
 	return head;
-	
+
 }
-NODE delete(NODE head)
+NODE dequeue(NODE head)
 {
 	NODE p=head;
 	if(head==NULL)
@@ -59,7 +95,7 @@ NODE delete(NODE head)
 	free(p);
 	return head;
 }
-void display(NODE head)
+void displayQ(NODE head)
 {
 	NODE p;
 	if(head==NULL)
@@ -74,11 +110,42 @@ void display(NODE head)
 		p=p->next;
 	}
 }
+
 int main()
 {
 	NODE head=NULL;
-	int ch,item,count,size;
+	int ch,item,count,size,x;
 	count=1;
+	printf("Enter 1 for stack, 2 for queues");
+	scanf("%d",&x);
+	if(x==1)
+    {
+	printf("enter the size of the stack\n");
+	scanf("%d",&size);
+	printf("enter\n1.push\n2.pop\n3.display\n-1.exit\n");
+	scanf("%d",&ch);
+	while(ch!=-1)
+	{
+		switch(ch)
+		{
+			case 1:printf("enter the item\n");
+				scanf("%d",&item);
+				head=push(item,head,&count,size);
+				count++;
+				break;
+			case 2:head=pop(head);
+				break;
+			case 3:display(head);
+				break;
+			default:printf("invalid input\n");
+		}
+		printf("enter next choice or -1 to exit\n");
+		scanf("%d",&ch);
+	}
+    }
+    else
+    {
+
 	printf("enter the size of the queue\n");
 	scanf("%d",&size);
 	printf("enter\n1.insert\n2.delete\n3.display\n-1.exit\n");
@@ -89,17 +156,19 @@ int main()
 		{
 			case 1:printf("enter the item\n");
 				scanf("%d",&item);
-				head=insert(head,item,&count,size);
+				head=enqueue(head,item,&count,size);
 				count++;
 				break;
-			case 2:head=delete(head);
+			case 2:head=dequeue(head);
 				break;
-			case 3:display(head);
+			case 3:displayQ(head);
 				break;
 			default:printf("invalid input\n");
 		}
 		printf("enter next choice or -1 to exit\n");
 		scanf("%d",&ch);
 	}
+    }
+
 	return 0;
 }
